@@ -15,7 +15,13 @@ Logger.note("This should be visible when compiled with '--debug' in gradle")
 
 ### `ClassType`
 
-When you want to generate both java and kotlin source files, types would be a great mess. So I have introduced `ClassType` as a middle layer, you can use `classType.java` for java files and `classType.kotlin` for kotlin files.
+When you want to generate both java and kotlin source files, types would be a great mess. So I have introduced `ClassType` as a middle layer, you can use `ClassType::java` for java files and `ClassType::kotlin` for kotlin files.
+
+```kotlin
+val STRING = ClassType("java.lang.String") // String
+val javaTypeNameOfString: com.squareup.javapoet.TypeName = STRING.java // java.lang.String
+val kotlinTypeNameOfString: com.squareup.kotlinpoet.TypeName = STRING.kotlin // kotlin.String
+```
 
 ### Type Conversion
 
@@ -23,7 +29,7 @@ Conversion extensions are provided to make it easy to convert from `Element` to 
 
 ### Parameterized Type
 
-I have overload the operator `get`, so that a parameterized type may be like:
+I have overloaded the operator `get`, so that a parameterized type may be like:
 
 ```kotlin
 val ARRAY_LIST = ClassType("java.util.ArrayList") // ArrayList
@@ -33,7 +39,7 @@ val ARRAY_LIST_STRING = ARRAY_LIST[STIRNG] //  ArrayList<String>
 
 ### Kotlin Types Mapping
 
-Kotlin maps its primitive types such as Int, Long and kotlin.String to corresponding Java types such as int(Integer), long(Long) and java.lang.String. AptUtils smart convert this mapping types when you want to generate kotlin files with the `ClassType::kotlin` function.
+Kotlin maps its primitive types such as `Int`, `Long` and `kotlin.String` to corresponding Java types such as `int`(`Integer`), `long`(`Long`) and `java.lang.String`. AptUtils smart convert this mapping types when you want to generate kotlin files with the `ClassType::kotlin` function.
 
 # [License](LICENSE)
 
