@@ -1,0 +1,4 @@
+rootProject.name = 'AptUtils'
+include 'aptutils'
+findProject(':aptutils')?.name = 'AptUtils'
+
