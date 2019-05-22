@@ -47,7 +47,7 @@ fun TypeMirror.erasure() = AptContext.types.erasure(this)
 
 //region subType
 fun TypeMirror.isSubTypeOf(className: String): Boolean {
-    return AptContext.types.isSubtype(this, TypeUtils.getTypeFromClassName(className))
+    return AptContext.types.isSubtype(this.erasure(), TypeUtils.getTypeFromClassName(className).erasure())
 }
 
 fun TypeMirror.isSubTypeOf(cls: Class<*>): Boolean {
@@ -59,7 +59,7 @@ fun TypeMirror.isSubTypeOf(cls: Class<*>): Boolean {
 fun TypeMirror.isSubTypeOf(cls: KClass<*>) = isSubTypeOf(cls.java)
 
 fun TypeMirror.isSubTypeOf(typeMirror: TypeMirror): Boolean {
-    return AptContext.types.isSubtype(this, typeMirror)
+    return AptContext.types.isSubtype(this.erasure(), typeMirror.erasure())
 }
 //endregion
 
