@@ -9,7 +9,9 @@ import com.squareup.kotlinpoet.TypeName as KotlinTypeName
 
 class ClassType(private val jvmClassName: String, private vararg val typeParameterClassTypes: ClassType) {
     private val typeMirror: TypeMirror by lazy {
-        TypeUtils.getTypeFromClassName(jvmClassName).erasure()
+        TypeUtils.getTypeFromClassName(jvmClassName)?.erasure() ?: throw ClassNotFoundException(
+            jvmClassName
+        )
     }
 
     val java: JavaTypeName by lazy {

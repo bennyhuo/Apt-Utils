@@ -27,7 +27,7 @@ object TypeUtils {
         return name
     }
 
-    internal fun getTypeFromClassName(className: String) = AptContext.elements.getTypeElement(className).asType()
+    internal fun getTypeFromClassName(className: String) = AptContext.elements.getTypeElement(className)?.asType()
 }
 
 fun TypeElement.packageName(): String {
@@ -47,7 +47,8 @@ fun TypeMirror.erasure() = AptContext.types.erasure(this)
 
 //region subType
 fun TypeMirror.isSubTypeOf(className: String): Boolean {
-    return AptContext.types.isSubtype(this.erasure(), TypeUtils.getTypeFromClassName(className).erasure())
+    val type = TypeUtils.getTypeFromClassName(className) ?: return false
+    return AptContext.types.isSubtype(this.erasure(), type.erasure())
 }
 
 fun TypeMirror.isSubTypeOf(cls: Class<*>): Boolean {
@@ -77,7 +78,7 @@ fun TypeMirror.isSameTypeWith(cls: Class<*>): Boolean {
 fun TypeMirror.isSameTypeWith(cls: KClass<*>) = isSameTypeWith(cls.java)
 
 fun TypeMirror.isSameTypeWith(className: String): Boolean {
-    return isSameTypeWith(TypeUtils.getTypeFromClassName(className))
+    return TypeUtils.getTypeFromClassName(className)?.let { isSameTypeWith(it) } ?: false
 }
 //endregion
 
